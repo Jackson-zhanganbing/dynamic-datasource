@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changan.dynamicdatasource.dao.Oauth2UserMapper">
+  <resultMap id="BaseResultMap" type="com.changan.dynamicdatasource.entity.Oauth2User">
+    <id column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="activated" jdbcType="BIT" property="activated" />
+    <result column="activationkey" jdbcType="VARCHAR" property="activationkey" />
+    <result column="resetpasswordkey" jdbcType="VARCHAR" property="resetpasswordkey" />
+  </resultMap>
+  <sql id="Oauth2_Base_Column_List">
+    username, email, password, activated, activationkey, resetpasswordkey
+  </sql>
+  <select id="getAllOauthUserInfo" resultType="com.changan.dynamicdatasource.entity.Oauth2User">
+    select
+    <include refid="Oauth2_Base_Column_List" />
+    from user
+  </select>
+
+</mapper>
