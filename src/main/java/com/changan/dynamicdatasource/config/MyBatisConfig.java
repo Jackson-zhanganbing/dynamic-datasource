@@ -35,10 +35,11 @@ public class MyBatisConfig {
 
     /**
      * 创建数据源(数据源的名称：方法名可以取为XXXDataSource(),XXX为数据库名称,该名称也就是数据源的名称)
+     * @Primary 该注解表示在同一个接口有多个实现类可以注入的时候，默认选择哪一个，而不是让@Autowire注解报错
      */
     @Bean
     @Primary
-    public DataSource myTestDbDataSource1() throws Exception {
+    public DataSource myDataSource1() throws Exception {
         System.out.println(env.getProperty("spring.datasource.druid.driver-class-name"));
         Properties props = new Properties();
         props.put("driverClassName", env.getProperty("spring.datasource.druid.driver-class-name"));
@@ -49,7 +50,7 @@ public class MyBatisConfig {
     }
 
     @Bean
-    public DataSource myTestDbDataSource2() throws Exception {
+    public DataSource myDataSource2() throws Exception {
         Properties props = new Properties();
         props.put("url", env.getProperty("spring.datasource-ext.druid.url"));
         props.put("driverClassName", env.getProperty("spring.datasource-ext.druid.driver-class-name"));
@@ -59,12 +60,12 @@ public class MyBatisConfig {
     }
 
     /**
-     * @Primary 该注解表示在同一个接口有多个实现类可以注入的时候，默认选择哪一个，而不是让@autowire注解报错
+     *
      * @Qualifier 根据名称进行注入，通常是在具有相同的多个类型的实例的一个注入（例如有多个DataSource类型的实例）
      */
     @Bean
-    public DynamicDataSource dataSource(@Qualifier("myTestDbDataSource1") DataSource myTestDbDataSource1,
-                                        @Qualifier("myTestDbDataSource2") DataSource myTestDbDataSource2) {
+    public DynamicDataSource dataSource(@Qualifier("myDataSource1") DataSource myTestDbDataSource1,
+                                        @Qualifier("myDataSource2") DataSource myTestDbDataSource2) {
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put(DatabaseType.db1, myTestDbDataSource1);
         targetDataSources.put(DatabaseType.db2, myTestDbDataSource2);

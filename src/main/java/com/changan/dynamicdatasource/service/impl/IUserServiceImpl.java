@@ -1,10 +1,11 @@
 package com.changan.dynamicdatasource.service.impl;
 
 import com.changan.dynamicdatasource.common.GeneralResponse;
-import com.changan.dynamicdatasource.common.datasource.DatabaseContextHolder;
 import com.changan.dynamicdatasource.common.datasource.DatabaseType;
+import com.changan.dynamicdatasource.common.datasource.DynamicDataSource;
 import com.changan.dynamicdatasource.dao.Oauth2UserMapper;
 import com.changan.dynamicdatasource.dao.UserMapper;
+import com.changan.dynamicdatasource.entity.Oauth2User;
 import com.changan.dynamicdatasource.entity.User;
 import com.changan.dynamicdatasource.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author zab
+ * @date 2019/5/30 13:20
+ */
 @Service
 public class IUserServiceImpl implements IUserService {
 
@@ -23,15 +28,15 @@ public class IUserServiceImpl implements IUserService {
 
     @Override
     public GeneralResponse getAllUserInfo() {
-        DatabaseContextHolder.setDatabaseType(DatabaseType.db1);
+        DynamicDataSource.DatabaseContextHolder.setDatabaseType(DatabaseType.db1);
         List<User> userList = userMapper.getAllUserInfo();
-        return GeneralResponse.success("ok",userList);
+        return GeneralResponse.success("ok", userList);
     }
 
     @Override
     public GeneralResponse getAllOauthUserInfo() {
-        DatabaseContextHolder.setDatabaseType(DatabaseType.db2);
-        List<User> userList = oauth2UserMapper.getAllOauthUserInfo();
-        return GeneralResponse.success("ok",userList);
+        DynamicDataSource.DatabaseContextHolder.setDatabaseType(DatabaseType.db2);
+        List<Oauth2User> userList = oauth2UserMapper.getAllOauthUserInfo();
+        return GeneralResponse.success("ok", userList);
     }
 }
