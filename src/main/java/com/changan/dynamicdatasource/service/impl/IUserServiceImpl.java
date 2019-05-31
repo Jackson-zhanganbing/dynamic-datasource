@@ -3,6 +3,8 @@ package com.changan.dynamicdatasource.service.impl;
 import com.changan.dynamicdatasource.common.GeneralResponse;
 import com.changan.dynamicdatasource.common.datasource.DatabaseType;
 import com.changan.dynamicdatasource.common.datasource.DynamicDataSource;
+import com.changan.dynamicdatasource.common.datasource.Master;
+import com.changan.dynamicdatasource.common.datasource.Slave;
 import com.changan.dynamicdatasource.dao.Oauth2UserMapper;
 import com.changan.dynamicdatasource.dao.UserMapper;
 import com.changan.dynamicdatasource.entity.Oauth2User;
@@ -27,15 +29,15 @@ public class IUserServiceImpl implements IUserService {
     private Oauth2UserMapper oauth2UserMapper;
 
     @Override
+    @Master
     public GeneralResponse getAllUserInfo() {
-        DynamicDataSource.DatabaseContextHolder.setDatabaseType(DatabaseType.db1);
         List<User> userList = userMapper.getAllUserInfo();
         return GeneralResponse.success("ok", userList);
     }
 
     @Override
+    @Slave
     public GeneralResponse getAllOauthUserInfo() {
-        DynamicDataSource.DatabaseContextHolder.setDatabaseType(DatabaseType.db2);
         List<Oauth2User> userList = oauth2UserMapper.getAllOauthUserInfo();
         return GeneralResponse.success("ok", userList);
     }
